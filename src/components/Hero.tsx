@@ -67,34 +67,6 @@ const Hero = () => {
             </Card>
           ))}
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 max-w-4xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-2">
-              8000+
-            </div>
-            <div className="text-gray-600">服务用户</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-2">
-              92%
-            </div>
-            <div className="text-gray-600">满意度</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-2">
-              300+
-            </div>
-            <div className="text-gray-600">合作企业</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-2">
-              专业
-            </div>
-            <div className="text-gray-600">服务团队</div>
-          </div>
-        </div>
       </div>
     </section>
   );

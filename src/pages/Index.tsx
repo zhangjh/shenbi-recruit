@@ -1,8 +1,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Camera, FileText, MessageSquare, Target, CheckCircle, Star, ArrowRight, Upload, Mic } from "lucide-react";
+import { Camera, FileText, MessageSquare, Target, Star, ArrowRight, Upload, Mic } from "lucide-react";
+import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import FeatureCard from "@/components/FeatureCard";
 import ProcessStep from "@/components/ProcessStep";
@@ -15,25 +15,29 @@ const Index = () => {
       icon: Camera,
       title: "职位解析",
       description: "拍照上传职位描述，快速提取核心要求",
-      color: "from-red-500 to-orange-600"
+      color: "from-red-500 to-orange-600",
+      link: "/job-analysis"
     },
     {
       icon: FileText,
       title: "简历分析",
       description: "上传简历获得专业分析与优化建议",
-      color: "from-orange-500 to-red-600"
+      color: "from-orange-500 to-red-600",
+      link: "/resume-analysis"
     },
     {
       icon: MessageSquare,
       title: "题库生成",
       description: "生成针对性的专业面试题目",
-      color: "from-red-500 to-orange-500"
+      color: "from-red-500 to-orange-500",
+      link: "/interview-prep"
     },
     {
       icon: Mic,
       title: "模拟面试",
       description: "语音交互模拟真实面试环境",
-      color: "from-orange-500 to-red-500"
+      color: "from-orange-500 to-red-500",
+      link: "/mock-interview"
     }
   ];
 
@@ -81,9 +85,11 @@ const Index = () => {
             <nav className="hidden md:flex items-center space-x-6">
               <a href="#features" className="text-gray-600 hover:text-red-600 transition-colors">功能介绍</a>
               <a href="#process" className="text-gray-600 hover:text-red-600 transition-colors">使用流程</a>
-              <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                立即开始
-              </Button>
+              <Link to="/job-analysis">
+                <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
+                  立即开始
+                </Button>
+              </Link>
             </nav>
           </div>
         </div>
@@ -106,12 +112,13 @@ const Index = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
-              <FeatureCard 
-                key={index}
-                feature={feature}
-                isActive={activeFeature === index}
-                onClick={() => setActiveFeature(index)}
-              />
+              <Link key={index} to={feature.link}>
+                <FeatureCard 
+                  feature={feature}
+                  isActive={activeFeature === index}
+                  onClick={() => setActiveFeature(index)}
+                />
+              </Link>
             ))}
           </div>
         </div>
@@ -146,10 +153,12 @@ const Index = () => {
           <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
             专业指导，助您在面试中脱颖而出
           </p>
-          <Button size="lg" className="bg-white text-red-600 hover:bg-gray-100 text-lg px-8 py-3">
-            立即免费体验
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
+          <Link to="/job-analysis">
+            <Button size="lg" className="bg-white text-red-600 hover:bg-gray-100 text-lg px-8 py-3">
+              立即免费体验
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -171,10 +180,10 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">产品功能</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>职位解析</li>
-                <li>简历分析</li>
-                <li>题库生成</li>
-                <li>模拟面试</li>
+                <li><Link to="/job-analysis">职位解析</Link></li>
+                <li><Link to="/resume-analysis">简历分析</Link></li>
+                <li><Link to="/interview-prep">题库生成</Link></li>
+                <li><Link to="/mock-interview">模拟面试</Link></li>
               </ul>
             </div>
             <div>
