@@ -69,7 +69,7 @@ const InterviewPrep = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <MessageSquare className="w-6 h-6 text-red-600" />
-                  <span>生成面试题库</span>
+                  <span>生成面试题目</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center py-12">

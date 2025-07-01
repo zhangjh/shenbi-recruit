@@ -5,26 +5,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Upload, ArrowLeft, CheckCircle, ArrowRight } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 
+import FileUpload from "@/components/FileUpload";
+
 const ResumeAnalysis = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [searchParams] = useSearchParams();
   const fromJob = searchParams.get('from') === 'job';
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      // 模拟分析过程
-      setTimeout(() => {
-        setAnalysisResult({
-          score: 85,
-          matchScore: fromJob ? 78 : null,
-          strengths: ["技能匹配度高", "工作经验丰富", "项目经历详实"],
-          improvements: ["缺少量化成果", "技能描述不够具体", "格式需要优化"]
-        });
-      }, 2000);
-    }
+  const handleFileUpload = (file: File) => {
+    setSelectedFile(file);
+    // 模拟分析过程
+    setTimeout(() => {
+      setAnalysisResult({
+        score: 85,
+        matchScore: fromJob ? 78 : null,
+        strengths: ["技能匹配度高", "工作经验丰富", "项目经历详实"],
+        improvements: ["缺少量化成果", "技能描述不够具体", "格式需要优化"]
+      });
+    }, 2000);
   };
 
   return (
@@ -54,23 +53,12 @@ const ResumeAnalysis = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-red-400 transition-colors">
-                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 mb-2">支持 PDF、Word 格式</p>
-                <p className="text-sm text-gray-500 mb-4">文件大小不超过10MB</p>
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                  id="resume-upload"
-                />
-                <label htmlFor="resume-upload">
-                  <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                    选择简历文件
-                  </Button>
-                </label>
-              </div>
+              <FileUpload
+                onFileUpload={handleFileUpload}
+                accept=".pdf,.doc,.docx"
+                title="支持 PDF、Word 格式"
+                description="文件大小不超过10MB"
+              />
 
               {selectedFile && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -142,11 +130,11 @@ const ResumeAnalysis = () => {
                     <CardContent className="pt-6">
                       <h3 className="font-semibold text-red-900 mb-4">准备面试</h3>
                       <p className="text-red-800 mb-4">
-                        分析完成！现在可以生成针对性的面试题库，帮助您更好地准备面试。
+                        分析完成！现在可以生成针对性的面试题目，帮助您更好地准备面试。
                       </p>
                       <Link to="/interview-prep">
                         <Button className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                          生成面试题库
+                          生成面试题目
                           <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
                       </Link>

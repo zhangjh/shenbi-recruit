@@ -22,7 +22,7 @@ const Index = () => {
     },
     {
       step: 3,
-      title: "生成面试题库",
+      title: "生成面试题目",
       description: "基于分析结果生成针对性面试题",
       icon: MessageSquare
     },
@@ -88,7 +88,7 @@ const Index = () => {
                 </p>
                 <div className="bg-red-50 rounded-lg p-4">
                   <p className="text-sm text-red-800 font-medium">推荐流程：</p>
-                  <p className="text-sm text-red-700">职位分析 → 简历匹配 → 面试题库 → 模拟面试</p>
+                  <p className="text-sm text-red-700">职位分析 → 简历匹配 → 面试题目 → 模拟面试</p>
                 </div>
               </div>
             </Link>
@@ -182,7 +182,7 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">联系我们</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>邮箱：<a href="mailto:zhangjh_initial@126.com" className="hover:text-white transition-colors">zhangjh_initial@126.com</a></li>
+                <li>邮箱：<a href="mailto:help@shenbi.tech" className="hover:text-white transition-colors">help@shenbi.tech</a></li>
               </ul>
             </div>
           </div>
