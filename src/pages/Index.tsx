@@ -153,10 +153,10 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
+              <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Star className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">神笔求职帮</h3>
@@ -173,17 +173,21 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">帮助中心</h4>
+              <h4 className="font-semibold mb-4">友情链接</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>使用指南</li>
-                <li>常见问题</li>
-                <li>联系客服</li>
-                <li>意见反馈</li>
+                <li><Link to="https://shenbi.tech" className="hover:text-white transition-colors">神笔作文</Link></li>
+                <li><Link to="https://report.shenbi.tech" className="hover:text-white transition-colors">神笔周报</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">联系我们</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>邮箱：<a href="mailto:zhangjh_initial@126.com" className="hover:text-white transition-colors">zhangjh_initial@126.com</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 神笔求职帮. 保留所有权利.</p>
+            <p>&copy; 2025 神笔求职帮. 保留所有权利.</p>
           </div>
         </div>
       </footer>
