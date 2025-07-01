@@ -67,6 +67,7 @@ const InterviewPrep = () => {
       const result = await response.json();
       if (result.success) {
         setQuestions(result.data);
+        sessionStorage.setItem('interviewQuestions', JSON.stringify(result.data));
       } else {
         setError("未能生成面试问题，请尝试重新生成或检查输入。");
       }
