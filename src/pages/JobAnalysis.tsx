@@ -79,6 +79,8 @@ const JobAnalysis = () => {
         requestBody = { jd: textContent };
       }
 
+      sessionStorage.setItem('jobDescriptionRaw', JSON.stringify(requestBody));
+      
       try {
         const response = await fetch(`${import.meta.env.VITE_BIZ_DOMAIN}/shenbi/recruit/jdAnalysis`, {
           method: "POST",
@@ -303,7 +305,7 @@ const JobAnalysis = () => {
                       <p className="text-orange-800 mb-3 md:mb-4 text-sm md:text-base leading-relaxed">
                         职位分析已完成！现在上传您的简历，我们将分析简历与职位的匹配度，并为您生成针对性的面试题。
                       </p>
-                      <Link to="/resume-analysis?from=job">
+                      <Link to="/resume-analysis">
                         <Button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-sm md:text-base">
                           继续上传简历
                           <ArrowRight className="w-4 h-4 ml-2" />
