@@ -20,13 +20,13 @@ const FeatureCard = ({ feature, isActive, onClick }: FeatureCardProps) => {
 
   return (
     <Card 
-      className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0 ${
-        isActive ? 'shadow-2xl -translate-y-2 ring-2 ring-blue-500/20' : 'shadow-lg'
+      className={`cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border ${
+        isActive ? 'shadow-lg -translate-y-1 ring-2 ring-orange-500/30 border-orange-200' : 'shadow-sm border-gray-200'
       }`}
       onClick={onClick}
     >
       <CardContent className="p-8 text-center">
-        <div className={`w-16 h-16 bg-gradient-to-r ${color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
+        <div className={`w-16 h-16 bg-gradient-to-r ${color} rounded-xl flex items-center justify-center mx-auto mb-6 shadow-sm`}>
           <Icon className="w-8 h-8 text-white" />
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
