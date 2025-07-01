@@ -4,61 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Camera, FileText, MessageSquare, Target, Star, ArrowRight, Upload, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
-import FeatureCard from "@/components/FeatureCard";
 import ProcessStep from "@/components/ProcessStep";
 
 const Index = () => {
-  const [activeFeature, setActiveFeature] = useState(0);
-
-  const features = [
-    {
-      icon: Camera,
-      title: "职位解析",
-      description: "拍照上传职位描述，快速提取核心要求",
-      color: "from-red-500 to-orange-600",
-      link: "/job-analysis"
-    },
-    {
-      icon: FileText,
-      title: "简历分析",
-      description: "上传简历获得专业分析与优化建议",
-      color: "from-orange-500 to-red-600",
-      link: "/resume-analysis"
-    },
-    {
-      icon: MessageSquare,
-      title: "题库生成",
-      description: "生成针对性的专业面试题目",
-      color: "from-red-500 to-orange-500",
-      link: "/interview-prep"
-    },
-    {
-      icon: Mic,
-      title: "模拟面试",
-      description: "语音交互模拟真实面试环境",
-      color: "from-orange-500 to-red-500",
-      link: "/mock-interview"
-    }
-  ];
-
   const processSteps = [
     {
       step: 1,
-      title: "上传职位信息",
-      description: "拍照或上传JD，获取职位核心要求",
+      title: "选择开始方式",
+      description: "上传职位描述或直接上传简历开始",
       icon: Camera
     },
     {
       step: 2,
-      title: "上传个人简历",
-      description: "支持Word/PDF格式，智能解析匹配度",
-      icon: Upload
+      title: "智能分析匹配",
+      description: "AI分析职位要求和简历匹配度",
+      icon: Target
     },
     {
       step: 3,
       title: "生成面试题库",
-      description: "基于JD和简历生成针对性面试题",
-      icon: Target
+      description: "基于分析结果生成针对性面试题",
+      icon: MessageSquare
     },
     {
       step: 4,
@@ -83,7 +49,7 @@ const Index = () => {
               </h1>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="text-gray-600 hover:text-red-600 transition-colors">功能介绍</a>
+              <a href="#start" className="text-gray-600 hover:text-red-600 transition-colors">开始使用</a>
               <a href="#process" className="text-gray-600 hover:text-red-600 transition-colors">使用流程</a>
               <Link to="/job-analysis">
                 <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
@@ -98,28 +64,50 @@ const Index = () => {
       {/* Hero Section */}
       <Hero />
 
-      {/* Features Section */}
-      <section id="features" className="py-20 px-4">
+      {/* Start Options Section */}
+      <section id="start" className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              专业求职辅导服务
+              选择您的开始方式
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              从简历优化到面试准备，全方位提升您的求职竞争力
+              根据您的需求选择合适的入口开始使用
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <Link key={index} to={feature.link}>
-                <FeatureCard 
-                  feature={feature}
-                  isActive={activeFeature === index}
-                  onClick={() => setActiveFeature(index)}
-                />
-              </Link>
-            ))}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <Link to="/job-analysis" className="group">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-red-300 hover:-translate-y-1">
+                <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <Camera className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">有目标职位</h3>
+                <p className="text-gray-600 text-center mb-4">
+                  拍照上传职位描述，获得针对性的面试准备
+                </p>
+                <div className="bg-red-50 rounded-lg p-4">
+                  <p className="text-sm text-red-800 font-medium">推荐流程：</p>
+                  <p className="text-sm text-red-700">职位分析 → 简历匹配 → 面试题库 → 模拟面试</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link to="/resume-analysis" className="group">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-300 hover:-translate-y-1">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <FileText className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">优化简历</h3>
+                <p className="text-gray-600 text-center mb-4">
+                  直接上传简历，获得专业的优化建议
+                </p>
+                <div className="bg-orange-50 rounded-lg p-4">
+                  <p className="text-sm text-orange-800 font-medium">适用场景：</p>
+                  <p className="text-sm text-orange-700">简历优化、通用面试准备、技能提升建议</p>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -165,7 +153,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
@@ -174,16 +162,14 @@ const Index = () => {
                 <h3 className="text-xl font-bold">神笔求职帮</h3>
               </div>
               <p className="text-gray-400">
-                专业求职辅导平台
+                专业求职辅导平台，助您成功就业
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">产品功能</h4>
+              <h4 className="font-semibold mb-4">开始使用</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link to="/job-analysis">职位解析</Link></li>
-                <li><Link to="/resume-analysis">简历分析</Link></li>
-                <li><Link to="/interview-prep">题库生成</Link></li>
-                <li><Link to="/mock-interview">模拟面试</Link></li>
+                <li><Link to="/job-analysis" className="hover:text-white transition-colors">有目标职位</Link></li>
+                <li><Link to="/resume-analysis" className="hover:text-white transition-colors">优化简历</Link></li>
               </ul>
             </div>
             <div>
@@ -193,15 +179,6 @@ const Index = () => {
                 <li>常见问题</li>
                 <li>联系客服</li>
                 <li>意见反馈</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">关于我们</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>产品介绍</li>
-                <li>隐私政策</li>
-                <li>服务条款</li>
-                <li>版本更新</li>
               </ul>
             </div>
           </div>

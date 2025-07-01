@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Camera, Upload, FileText, ArrowLeft } from "lucide-react";
+import { Camera, Upload, FileText, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const JobAnalysis = () => {
@@ -31,7 +31,7 @@ const JobAnalysis = () => {
               <span>返回首页</span>
             </Link>
             <h1 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-              职位分析
+              步骤1：职位分析
             </h1>
           </div>
         </div>
@@ -74,12 +74,29 @@ const JobAnalysis = () => {
               )}
 
               {analysisResult && (
-                <Card className="bg-blue-50 border-blue-200">
-                  <CardContent className="pt-6">
-                    <h3 className="font-semibold text-blue-900 mb-2">分析结果</h3>
-                    <p className="text-blue-800">{analysisResult}</p>
-                  </CardContent>
-                </Card>
+                <div className="space-y-4">
+                  <Card className="bg-blue-50 border-blue-200">
+                    <CardContent className="pt-6">
+                      <h3 className="font-semibold text-blue-900 mb-2">分析结果</h3>
+                      <p className="text-blue-800">{analysisResult}</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-orange-50 border-orange-200">
+                    <CardContent className="pt-6">
+                      <h3 className="font-semibold text-orange-900 mb-4">下一步操作</h3>
+                      <p className="text-orange-800 mb-4">
+                        职位分析已完成！现在上传您的简历，我们将分析简历与职位的匹配度，并为您生成针对性的面试题。
+                      </p>
+                      <Link to="/resume-analysis?from=job">
+                        <Button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
+                          继续上传简历
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </div>
               )}
             </CardContent>
           </Card>

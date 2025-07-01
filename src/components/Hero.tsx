@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, ArrowRight, Target } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const benefits = [
@@ -42,13 +43,17 @@ const Hero = () => {
           
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
-            <Button size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 group">
-              开始使用
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-2 hover:bg-gray-50 border-gray-300 text-gray-700">
-              了解详情
-            </Button>
+            <Link to="/job-analysis">
+              <Button size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                开始使用
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <a href="#process">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-2 hover:bg-gray-50 border-gray-300 text-gray-700">
+                了解流程
+              </Button>
+            </a>
           </div>
         </div>
 

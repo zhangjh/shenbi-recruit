@@ -1,13 +1,15 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Upload, ArrowLeft, CheckCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { FileText, Upload, ArrowLeft, CheckCircle, ArrowRight } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 
 const ResumeAnalysis = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [searchParams] = useSearchParams();
+  const fromJob = searchParams.get('from') === 'job';
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -17,6 +19,7 @@ const ResumeAnalysis = () => {
       setTimeout(() => {
         setAnalysisResult({
           score: 85,
+          matchScore: fromJob ? 78 : null,
           strengths: ["技能匹配度高", "工作经验丰富", "项目经历详实"],
           improvements: ["缺少量化成果", "技能描述不够具体", "格式需要优化"]
         });
@@ -30,12 +33,12 @@ const ResumeAnalysis = () => {
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+            <Link to={fromJob ? "/job-analysis" : "/"} className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span>返回首页</span>
+              <span>{fromJob ? "返回职位分析" : "返回首页"}</span>
             </Link>
             <h1 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-              简历分析
+              {fromJob ? "步骤2：简历分析" : "简历分析"}
             </h1>
           </div>
         </div>
@@ -80,14 +83,27 @@ const ResumeAnalysis = () => {
 
               {analysisResult && (
                 <div className="space-y-4">
-                  <Card className="bg-blue-50 border-blue-200">
-                    <CardContent className="pt-6">
-                      <div className="text-center mb-4">
-                        <div className="text-3xl font-bold text-blue-600 mb-2">{analysisResult.score}分</div>
-                        <p className="text-blue-800">简历综合评分</p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="grid gap-4">
+                    <Card className="bg-blue-50 border-blue-200">
+                      <CardContent className="pt-6">
+                        <div className="text-center mb-4">
+                          <div className="text-3xl font-bold text-blue-600 mb-2">{analysisResult.score}分</div>
+                          <p className="text-blue-800">简历综合评分</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {analysisResult.matchScore && (
+                      <Card className="bg-purple-50 border-purple-200">
+                        <CardContent className="pt-6">
+                          <div className="text-center mb-4">
+                            <div className="text-3xl font-bold text-purple-600 mb-2">{analysisResult.matchScore}分</div>
+                            <p className="text-purple-800">职位匹配度</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <Card className="bg-green-50 border-green-200">
@@ -121,6 +137,21 @@ const ResumeAnalysis = () => {
                       </CardContent>
                     </Card>
                   </div>
+
+                  <Card className="bg-gradient-to-r from-red-50 to-orange-50 border-red-200">
+                    <CardContent className="pt-6">
+                      <h3 className="font-semibold text-red-900 mb-4">准备面试</h3>
+                      <p className="text-red-800 mb-4">
+                        分析完成！现在可以生成针对性的面试题库，帮助您更好地准备面试。
+                      </p>
+                      <Link to="/interview-prep">
+                        <Button className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
+                          生成面试题库
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
                 </div>
               )}
             </CardContent>

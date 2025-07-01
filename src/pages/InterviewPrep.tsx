@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageSquare, ArrowLeft, Play, RotateCcw } from "lucide-react";
+import { MessageSquare, ArrowLeft, Play, RotateCcw, Mic, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const InterviewPrep = () => {
@@ -51,12 +51,12 @@ const InterviewPrep = () => {
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+            <Link to="/resume-analysis" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span>返回首页</span>
+              <span>返回简历分析</span>
             </Link>
             <h1 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-              面试准备
+              步骤3：面试准备
             </h1>
           </div>
         </div>
@@ -143,6 +143,29 @@ const InterviewPrep = () => {
                       >
                         下一题
                       </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 模拟面试入口 */}
+              <Card className="bg-gradient-to-r from-orange-50 to-red-50 border-orange-200">
+                <CardContent className="pt-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                      <Mic className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-orange-900 mb-2">准备好真实面试了吗？</h3>
+                      <p className="text-orange-800 text-sm mb-4">
+                        开始模拟面试，通过语音交互获得更真实的面试体验和专业评价
+                      </p>
+                      <Link to="/mock-interview">
+                        <Button className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700">
+                          开始模拟面试
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </CardContent>
