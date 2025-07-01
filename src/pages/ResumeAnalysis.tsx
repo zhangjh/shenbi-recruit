@@ -72,9 +72,13 @@ const ResumeAnalysis = () => {
         }
 
         const result = await response.json();
+        console.log("ResumeAnalysis API Response Result:", result);
         if(result.success) {
-          setAnalysisResult(result.data.resumeAnalysis);
+          console.log("Setting analysisResult to:", result.data);
+          setAnalysisResult(result.data);
+          sessionStorage.setItem('resumeRaw', JSON.stringify({ resume: base64Resume })); // Save resume to session storage
         } else {
+          console.error("Backend reported error:", result.errorMsg);
           setError(result.errorMsg);
         }
       } catch (e: any) {
