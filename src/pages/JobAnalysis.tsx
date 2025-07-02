@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Camera, FileText, ArrowLeft, ArrowRight, Loader2, BrainCircuit, Briefcase, Building, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@clerk/clerk-react";
 
 import FileUpload from "@/components/FileUpload";
 
@@ -42,6 +43,7 @@ interface AnalysisResult {
 
 
 const JobAnalysis = () => {
+  const { user } = useUser();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +69,7 @@ const JobAnalysis = () => {
           setFileInputKey(Date.now()); // Reset on error
           return;
         }
-        requestBody = { jdImg: base64Image };
+        requestBody = { jdImg: base64Image, userId: user?.id };
       } else {
         const textContent = reader.result as string;
         if (!textContent) {
@@ -76,7 +78,7 @@ const JobAnalysis = () => {
           setFileInputKey(Date.now()); // Reset on error
           return;
         }
-        requestBody = { jd: textContent };
+        requestBody = { jd: textContent, userId: user?.id };
       }
 
       sessionStorage.setItem('jobDescriptionRaw', JSON.stringify(requestBody));

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Loader2, MessageSquare, Lightbulb, RotateCcw, Play, Mic, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 // Define the structure of the analysis result
 interface InterviewQuestionItem {
@@ -15,6 +16,7 @@ interface InterviewQuestionsResult {
 }
 
 const InterviewPrep = () => {
+  const { user } = useUser();
   const [questions, setQuestions] = useState<InterviewQuestionItem[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -37,8 +39,9 @@ const InterviewPrep = () => {
       return;
     }
 
-    let requestBody: { resume: string; jd?: string; jdImg?: string } = {
+    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string } = {
       resume: JSON.parse(resumeRaw).resume, // Assuming resumeRaw stores { resume: base64String }
+      userId: user?.id || '',
     };
 
     if (jobDescriptionRaw) {

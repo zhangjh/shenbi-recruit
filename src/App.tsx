@@ -12,6 +12,7 @@ import InterviewPrep from "./pages/InterviewPrep";
 import MockInterview from "./pages/MockInterview";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -25,10 +26,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/signin/*" element={<SignInPage />} />
           <Route path="/signup/*" element={<SignUpPage />} />
-          <Route path="/job-analysis" element={<JobAnalysis />} />
-          <Route path="/resume-analysis" element={<ResumeAnalysis />} />
-          <Route path="/interview-prep" element={<InterviewPrep />} />
-          <Route path="/mock-interview" element={<MockInterview />} />
+          <Route path="/job-analysis" element={<ProtectedRoute><JobAnalysis /></ProtectedRoute>} />
+          <Route path="/resume-analysis" element={<ProtectedRoute><ResumeAnalysis /></ProtectedRoute>} />
+          <Route path="/interview-prep" element={<ProtectedRoute><InterviewPrep /></ProtectedRoute>} />
+          <Route path="/mock-interview" element={<ProtectedRoute><MockInterview /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

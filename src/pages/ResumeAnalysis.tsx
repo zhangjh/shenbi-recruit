@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, ArrowLeft, Loader2, CheckCircle, XCircle, Lightbulb, Sparkles, Target, TrendingUp, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 import FileUpload from "@/components/FileUpload";
 
@@ -17,6 +18,7 @@ interface ResumeAnalysisResult {
 }
 
 const ResumeAnalysis = () => {
+  const { user } = useUser();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [analysisResult, setAnalysisResult] = useState<ResumeAnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +50,7 @@ const ResumeAnalysis = () => {
         return;
       }
 
-      const requestBody: { resume: string; jd?: string; jdImg?: string } = { resume: base64Resume };
+      const requestBody: { resume: string; jd?: string; jdImg?: string; userId: string } = { resume: base64Resume, userId: user?.id || '' };
       if (jobDescriptionRaw) {
         if (jobDescriptionRaw.jd) {
           requestBody.jd = jobDescriptionRaw.jd;

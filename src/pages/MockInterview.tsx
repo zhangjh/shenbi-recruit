@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mic, ArrowLeft, Square, Play, Loader2, ThumbsUp, Lightbulb, Award, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@clerk/clerk-react";
 
 // Define the structure of the analysis result
 interface InterviewQuestionItem {
@@ -26,6 +27,7 @@ interface FinalReport {
 }
 
 const MockInterview = () => {
+  const { user } = useUser();
   const [questions, setQuestions] = useState<InterviewQuestionItem[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [interviewId, setInterviewId] = useState<string | null>(null);
@@ -123,6 +125,7 @@ const MockInterview = () => {
           question: questions[currentQuestionIndex].question,
           answerAudio: audioB64,
           nextQuestion: nextQuestion,
+          userId: user?.id,
         }),
       });
 
@@ -168,7 +171,8 @@ const MockInterview = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           interviewId, 
-          interviewHistory: cachedFeedback 
+          interviewHistory: cachedFeedback,
+          userId: user?.id
         }),
       });
       if (!response.ok) throw new Error("获取面试报告失败");
