@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useUser } from "@clerk/clerk-react";
 
 import FileUpload from "@/components/FileUpload";
+import SEOHead from "@/components/SEOHead";
 
 // Define the structure of the analysis result
 interface CompetencyAnalysis {
@@ -141,6 +142,12 @@ const JobAnalysis = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+      <SEOHead 
+        title="职位分析 - 神笔求职帮"
+        description="上传职位描述，AI智能解析职位要求、技能点和关键词，为您量身定制求职策略和面试准备方案。"
+        keywords="职位分析,JD解析,职位要求分析,求职策略,AI职位分析"
+        canonical="https://job.shenbi.tech/job-analysis"
+      />
       {/* Header */}
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3 md:py-4">

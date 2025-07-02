@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ProcessStep from "@/components/ProcessStep";
 import Header from "@/components/Header";
+import StructuredData from "@/components/StructuredData";
 
 const Index = () => {
   const processSteps = [
@@ -36,6 +37,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+      <StructuredData />
       <Header />
 
       {/* Hero Section */}

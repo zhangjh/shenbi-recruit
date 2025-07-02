@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Loader2, MessageSquare, Lightbulb, RotateCcw, Play, Mic, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
+import SEOHead from "@/components/SEOHead";
 
 // Define the structure of the analysis result
 interface InterviewQuestionItem {
@@ -104,6 +105,12 @@ const InterviewPrep = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+      <SEOHead 
+        title="面试准备 - 神笔求职帮"
+        description="根据职位和简历生成个性化面试题目，全面覆盖技术和行为面试，提供参考答案和专业指导。"
+        keywords="面试准备,面试题目,面试答案,模拟面试,面试技巧"
+        canonical="https://job.shenbi.tech/interview-prep"
+      />
       {/* Header */}
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3 md:py-4">

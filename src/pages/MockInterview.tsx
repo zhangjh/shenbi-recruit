@@ -5,6 +5,7 @@ import { Mic, ArrowLeft, Square, Play, Loader2, ThumbsUp, Lightbulb, Award, File
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { useUser } from "@clerk/clerk-react";
+import SEOHead from "@/components/SEOHead";
 
 // Define the structure of the analysis result
 interface InterviewQuestionItem {
@@ -210,6 +211,12 @@ const MockInterview = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+      <SEOHead 
+        title="模拟面试 - 神笔求职帮"
+        description="真实模拟面试情境，语音交互面试体验，提供即时反馈和专业评价，帮您在真正面试中发挥最佳状态。"
+        keywords="模拟面试,语音面试,面试练习,面试反馈,AI面试官"
+        canonical="https://job.shenbi.tech/mock-interview"
+      />
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">

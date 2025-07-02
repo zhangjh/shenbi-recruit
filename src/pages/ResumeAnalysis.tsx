@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
 import FileUpload from "@/components/FileUpload";
+import SEOHead from "@/components/SEOHead";
 
 // Define the structure of the analysis result
 interface ResumeAnalysisResult {
@@ -117,6 +118,12 @@ const ResumeAnalysis = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
+      <SEOHead 
+        title="简历分析 - 神笔求职帮"
+        description="上传PDF简历，AI智能分析简历与职位匹配度，提供专业的简历优化建议和针对性改进方案。"
+        keywords="简历分析,简历优化,简历匹配度,简历修改建议,AI简历分析"
+        canonical="https://job.shenbi.tech/resume-analysis"
+      />
       {/* Header */}
       <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3 md:py-4">
