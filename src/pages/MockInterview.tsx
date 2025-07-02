@@ -157,7 +157,7 @@ const MockInterview = () => {
       } else {
         throw new Error(result.errorMsg || "分析回答失败");
       }
-    } catch (e: any) {
+    } catch (e) {
       setError(e.message);
     }
   };

@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic } from "lucide-react";
+import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic, Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ProcessStep from "@/components/ProcessStep";
@@ -19,7 +19,7 @@ const Index = () => {
       step: 2,
       title: "智能分析匹配",
       description: "AI分析职位要求和简历匹配度",
-      icon: Target
+      icon: Brain
     },
     {
       step: 3,
