@@ -179,7 +179,10 @@ const MockInterview = () => {
       if (!response.ok) throw new Error("获取面试报告失败");
       const result = await response.json();
       if (result.success) {
-        setFinalReport(result.data);
+        setFinalReport({
+          ...result.data.summaryResult,
+          detailedFeedback: cachedFeedback
+        });
       } else {
         // Use cached feedback if ending fails but we have feedback
         if (cachedFeedback.length > 0) {
