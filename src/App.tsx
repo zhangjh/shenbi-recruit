@@ -10,6 +10,8 @@ import JobAnalysis from "./pages/JobAnalysis";
 import ResumeAnalysis from "./pages/ResumeAnalysis";
 import InterviewPrep from "./pages/InterviewPrep";
 import MockInterview from "./pages/MockInterview";
+import SignInPage from "./pages/SignIn";
+import SignUpPage from "./pages/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/signin/*" element={<SignInPage />} />
+          <Route path="/signup/*" element={<SignUpPage />} />
           <Route path="/job-analysis" element={<JobAnalysis />} />
           <Route path="/resume-analysis" element={<ResumeAnalysis />} />
           <Route path="/interview-prep" element={<InterviewPrep />} />

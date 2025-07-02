@@ -4,6 +4,7 @@ import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic } from "lucide
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ProcessStep from "@/components/ProcessStep";
+import Header from "@/components/Header";
 
 const Index = () => {
   const processSteps = [
@@ -35,30 +36,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50/30">
-      {/* Header */}
-      <header className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
-                <Target className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-                神笔求职帮
-              </h1>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <a href="#start" className="text-gray-600 hover:text-red-600 transition-colors">开始使用</a>
-              <a href="#process" className="text-gray-600 hover:text-red-600 transition-colors">使用流程</a>
-              <Link to="/job-analysis">
-                <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                  立即开始
-                </Button>
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <Hero />
