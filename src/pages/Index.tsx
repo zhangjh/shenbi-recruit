@@ -152,7 +152,7 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">友情链接</h4>
+              <h4 className="font-semibold mb-4">神笔系列</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link to="https://shenbi.tech" className="hover:text-white transition-colors">神笔作文</Link></li>
                 <li><Link to="https://report.shenbi.tech" className="hover:text-white transition-colors">神笔周报</Link></li>
