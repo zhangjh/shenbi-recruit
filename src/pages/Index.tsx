@@ -1,7 +1,6 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, FileText, MessageSquare, Target, Star, ArrowRight, Upload, Mic } from "lucide-react";
+import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ProcessStep from "@/components/ProcessStep";
@@ -42,7 +41,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center">
-                <Star className="w-5 h-5 text-white" />
+                <Target className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
                 神笔求职帮
@@ -157,7 +156,7 @@ const Index = () => {
             <div>
               <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Star className="w-5 h-5 text-white" />
+                  <Target className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">神笔求职帮</h3>
               </div>
