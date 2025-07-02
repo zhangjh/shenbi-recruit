@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => ({
           // 将查询和工具库分离出来
           'utils-vendor': ['@tanstack/react-query', 'clsx', 'class-variance-authority', 'tailwind-merge'],
           // 将图标和markdown相关的库分离出来
-          'content-vendor': ['lucide-react', 'react-markdown', 'rehype-raw'],
+          'content-vendor': ['lucide-react'],
         }
       }
     },
