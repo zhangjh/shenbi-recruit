@@ -1,15 +1,35 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, Target } from "lucide-react";
+import { ArrowRight, Target, Search, FileText, MessageSquare, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const benefits = [
-    "精准解析职位要求",
-    "深度优化简历内容", 
-    "定制化面试题目",
-    "模拟真实面试情境"
+  const features = [
+    {
+      title: "职位分析",
+      description: "智能解析职位描述，提取关键要求和技能点，为您量身定制求职策略",
+      icon: Search,
+      color: "from-blue-500 to-blue-600"
+    },
+    {
+      title: "简历优化",
+      description: "基于职位要求分析您的简历，提供专业的优化建议和改进方案",
+      icon: FileText,
+      color: "from-green-500 to-green-600"
+    },
+    {
+      title: "个性化面试题目",
+      description: "根据职位和简历生成针对性面试题目，全面覆盖技术和行为面试",
+      icon: MessageSquare,
+      color: "from-purple-500 to-purple-600"
+    },
+    {
+      title: "模拟面试",
+      description: "真实模拟面试情境，提供即时反馈，帮您在真正面试中发挥最佳状态",
+      icon: Mic,
+      color: "from-red-500 to-red-600"
+    }
   ];
 
   return (
@@ -57,20 +77,26 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Benefits grid */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {benefits.map((benefit, index) => (
-            <Card key={index} className="bg-white/90 backdrop-blur-sm border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 text-white" />
+        {/* Features grid */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
+              <Card key={index} className="bg-white/90 backdrop-blur-sm border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                    </div>
                   </div>
-                  <span className="text-lg font-medium text-gray-800">{benefit}</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
