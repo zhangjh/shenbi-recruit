@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Camera, FileText, ArrowLeft, ArrowRight, Loader2, BrainCircuit, Briefcase, Building, Target } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Camera, FileText, ArrowLeft, ArrowRight, Loader2, BrainCircuit, Briefcase, Building, Target, Edit3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { useUser } from "@clerk/clerk-react";
@@ -46,17 +48,50 @@ interface AnalysisResult {
 const JobAnalysis = () => {
   const { user } = useUser();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [jobDescription, setJobDescription] = useState("");
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fileInputKey, setFileInputKey] = useState(Date.now()); // Add a key state
 
-  const handleFileUpload = async (file: File) => {
-    setSelectedFile(file);
+  const handleAnalysis = async (requestBody: any) => {
     setAnalysisResult(null);
     setError(null);
     setIsLoading(true);
 
+    sessionStorage.setItem('jobDescriptionRaw', JSON.stringify(requestBody));
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BIZ_DOMAIN}/shenbi/recruit/jdAnalysis`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+      }
+
+      const result = await response.json();
+      if(result.success) {
+        setAnalysisResult(result.data);
+      } else {
+        setError(result.errorMsg);
+      }
+    } catch (e: any) {
+      console.error("Analysis failed:", e);
+      setError(`分析失败: ${e.message}`);
+    } finally {
+      setIsLoading(false);
+      setFileInputKey(Date.now());
+    }
+  };
+
+  const handleFileUpload = async (file: File) => {
+    setSelectedFile(file);
     const isImage = file.type.startsWith('image/');
     const reader = new FileReader();
 
@@ -66,8 +101,7 @@ const JobAnalysis = () => {
         const base64Image = reader.result?.toString().split(',')[1];
         if (!base64Image) {
           setError("无法读取图片文件或文件格式错误。");
-          setIsLoading(false);
-          setFileInputKey(Date.now()); // Reset on error
+          setFileInputKey(Date.now());
           return;
         }
         requestBody = { jdImg: base64Image, userId: user?.id };
@@ -75,55 +109,35 @@ const JobAnalysis = () => {
         const textContent = reader.result as string;
         if (!textContent) {
           setError("无法读取文本文件或文件为空。");
-          setIsLoading(false);
-          setFileInputKey(Date.now()); // Reset on error
+          setFileInputKey(Date.now());
           return;
         }
         requestBody = { jd: textContent, userId: user?.id };
       }
 
-      sessionStorage.setItem('jobDescriptionRaw', JSON.stringify(requestBody));
-      
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BIZ_DOMAIN}/shenbi/recruit/jdAnalysis`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
-        }
-
-        const result = await response.json();
-        if(result.success) {
-          setAnalysisResult(result.data);
-        } else {
-          setError(result.errorMsg);
-        }
-      } catch (e: any) {
-        console.error("Analysis failed:", e);
-        setError(`分析失败: ${e.message}`);
-      } finally {
-        setIsLoading(false);
-        setFileInputKey(Date.now()); // Always reset the key after an attempt
-      }
+      await handleAnalysis(requestBody);
     };
 
     reader.onerror = () => {
       setError("读取文件时发生错误。");
-      setIsLoading(false);
-      setFileInputKey(Date.now()); // Reset on error
+      setFileInputKey(Date.now());
     };
 
     if (isImage) {
-      reader.readAsDataURL(file); // For images
+      reader.readAsDataURL(file);
     } else {
-      reader.readAsText(file); // For text files
+      reader.readAsText(file);
     }
+  };
+
+  const handleTextSubmit = async () => {
+    if (!jobDescription.trim()) {
+      setError("请输入职位描述内容。");
+      return;
+    }
+
+    const requestBody = { jd: jobDescription.trim(), userId: user?.id };
+    await handleAnalysis(requestBody);
   };
 
   const renderAnalysisSection = (title: string, icon: React.ReactNode, content: React.ReactNode) => (
@@ -169,28 +183,76 @@ const JobAnalysis = () => {
             <CardHeader className="pb-4 md:pb-6">
               <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
                 <Camera className="w-5 h-5 md:w-6 md:h-6 text-red-600" />
-                <span>上传职位描述</span>
+                <span>职位描述</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 md:space-y-6">
-              <FileUpload
-                key={fileInputKey} // Add the key here
-                onFileUpload={handleFileUpload}
-                accept="image/*,.md,.txt"
-                title="拖拽图片/文本文件到此处或点击上传"
-                description="支持PNG, JPG, TXT, MD等格式"
-              />
+              <Tabs defaultValue="upload" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="upload" className="flex items-center space-x-2">
+                    <Camera className="w-4 h-4" />
+                    <span>上传图片</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="text" className="flex items-center space-x-2">
+                    <Edit3 className="w-4 h-4" />
+                    <span>手动输入</span>
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="upload" className="space-y-4">
+                  <FileUpload
+                    key={fileInputKey}
+                    onFileUpload={handleFileUpload}
+                    accept="image/*,.md,.txt"
+                    title="拖拽图片/文本文件到此处或点击上传"
+                    description="支持PNG, JPG, TXT, MD等格式"
+                  />
+                  
+                  {selectedFile && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-4">
+                      <div className="flex items-center space-x-2">
+                        <FileText className="w-4 h-4 md:w-5 md:h-5 text-green-600 flex-shrink-0" />
+                        <span className="text-green-800 font-medium text-sm md:text-base break-all">
+                          文件已上传: {selectedFile.name}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </TabsContent>
+                
+                <TabsContent value="text" className="space-y-4">
+                  <div className="space-y-3">
+                    <Textarea
+                      placeholder="请粘贴或输入职位描述内容...
 
-              {selectedFile && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-4">
-                  <div className="flex items-center space-x-2">
-                    <FileText className="w-4 h-4 md:w-5 md:h-5 text-green-600 flex-shrink-0" />
-                    <span className="text-green-800 font-medium text-sm md:text-base break-all">
-                      文件已上传: {selectedFile.name}
-                    </span>
+                        例如：
+                        职位：前端开发工程师
+                        要求：
+                        - 3年以上前端开发经验
+                        - 熟练掌握React、Vue等框架
+                        - 具备良好的沟通能力
+                        ..."
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      className="min-h-[200px] resize-none"
+                    />
+                    <Button 
+                      onClick={handleTextSubmit}
+                      disabled={!jobDescription.trim() || isLoading}
+                      className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          分析中...
+                        </>
+                      ) : (
+                        "开始分析"
+                      )}
+                    </Button>
                   </div>
-                </div>
-              )}
+                </TabsContent>
+              </Tabs>
 
               {isLoading && (
                 <div className="flex items-center justify-center space-x-2 text-gray-600 py-4">

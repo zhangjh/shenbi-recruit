@@ -134,30 +134,30 @@ const MockInterview = () => {
       const result = await response.json();
 
       if (result.success) {
-        setCachedFeedback(prev => [...prev, result.data.feedback]);
+        setCachedFeedback(prev => [...prev, result.data.evalResult.feedback]);
 
-        const { nextAction } = result.data;
-        if (nextAction.type === 'ASK_FOLLOW_UP') {
-          const newQuestion = { question: nextAction.question.text, answer: '' };
+        const { nextAction } = result.data.evalResult;
+        if (nextAction && nextAction.type === 'ASK_FOLLOW_UP') {
+          const newQuestion = { question: nextAction.question?.text || '', answer: '' };
           setQuestions(prev => {
             const newQuestions = [...prev];
             newQuestions.splice(currentQuestionIndex + 1, 0, newQuestion);
             return newQuestions;
           });
           setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else if (nextAction.type === 'PROCEED_TO_NEXT') {
+        } else if (nextAction && nextAction.type === 'PROCEED_TO_NEXT') {
           if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
           } else {
             endInterview();
           }
-        } else { // INTERVIEW_CONCLUDED
+        } else { // INTERVIEW_CONCLUDED or nextAction is undefined
           endInterview();
         }
       } else {
         throw new Error(result.errorMsg || "分析回答失败");
       }
-    } catch (e: any) {
+    } catch (e) {
       setError(e.message);
     }
   };
@@ -179,7 +179,10 @@ const MockInterview = () => {
       if (!response.ok) throw new Error("获取面试报告失败");
       const result = await response.json();
       if (result.success) {
-        setFinalReport(result.data);
+        setFinalReport({
+          ...result.data.summaryResult,
+          detailedFeedback: cachedFeedback
+        });
       } else {
         // Use cached feedback if ending fails but we have feedback
         if (cachedFeedback.length > 0) {

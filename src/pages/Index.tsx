@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic } from "lucide-react";
+import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic, Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ProcessStep from "@/components/ProcessStep";
@@ -12,14 +12,14 @@ const Index = () => {
     {
       step: 1,
       title: "选择开始方式",
-      description: "上传职位描述或直接上传简历开始",
+      description: "上传或输入职位描述，或直接上传简历开始",
       icon: Camera
     },
     {
       step: 2,
       title: "智能分析匹配",
       description: "AI分析职位要求和简历匹配度",
-      icon: Target
+      icon: Brain
     },
     {
       step: 3,
@@ -63,7 +63,7 @@ const Index = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">有目标职位</h3>
                 <p className="text-gray-600 text-center mb-4">
-                  拍照上传职位描述，获得针对性的面试准备
+                  上传或输入职位描述，获得针对性的面试准备
                 </p>
                 <div className="bg-red-50 rounded-lg p-4">
                   <p className="text-sm text-red-800 font-medium">推荐流程：</p>
