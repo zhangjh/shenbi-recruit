@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic, Brain } from "lucide-react";
+import { Camera, FileText, MessageSquare, Target, ArrowRight, Mic, Brain, Mail } from "lucide-react";
 import { SiGithub, SiWechat, SiX } from "react-icons/si";
 import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
@@ -161,17 +161,14 @@ const Index = () => {
             </div>
             <div>
               <h4 className="font-semibold mb-4">联系我们</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>邮箱：<a href="mailto:help@shenbi.tech" className="hover:text-white transition-colors">help@shenbi.tech</a></li>
-              </ul>
               <div className="flex justify-center md:justify-start space-x-4 mt-4">
-                <a href="https://github.com/zhangjh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="mailto:help@shenbi.tech" className="text-gray-400 hover:text-white transition-colors" title="邮箱：help@shenbi.tech">
+                  <Mail className="w-5 h-5" />
+                </a>
+                <a href="https://github.com/zhangjh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" title="GitHub">
                   <SiGithub className="w-5 h-5" />
                 </a>
-                {/* <a href="#" className="text-gray-400 hover:text-white transition-colors" title="微信：shenbi-tech">
-                  <SiWechat className="w-5 h-5" />
-                </a> */}
-                <a href="https://x.com/Dante_Chaser" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://x.com/Dante_Chaser" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" title="X (Twitter)">
                   <SiX className="w-5 h-5" />
                 </a>
               </div>
