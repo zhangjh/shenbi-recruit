@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Loader2, MessageSquare, Lightbulb, RotateCcw, Play, Mic, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
@@ -10,6 +11,7 @@ import SEOHead from "@/components/SEOHead";
 interface InterviewQuestionItem {
   question: string;
   answer?: string;
+  isBg?: boolean;
 }
 
 interface InterviewQuestionsResult {
@@ -23,6 +25,7 @@ const InterviewPrep = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [includeBaguwen, setIncludeBaguwen] = useState(false);
 
   const generateQuestions = async () => {
     setIsLoading(true);
@@ -40,10 +43,14 @@ const InterviewPrep = () => {
       return;
     }
 
-    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string } = {
+    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string; needBg?: boolean } = {
       resume: JSON.parse(resumeRaw).resume, // Assuming resumeRaw stores { resume: base64String }
       userId: user?.id || '',
     };
+
+    if (includeBaguwen) {
+      requestBody.needBg = true;
+    }
 
     if (jobDescriptionRaw) {
       const jdData = JSON.parse(jobDescriptionRaw);
@@ -161,6 +168,16 @@ const InterviewPrep = () => {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 md:p-4 text-blue-800">
                   <p className="font-semibold">暂无面试问题</p>
                   <p className="text-sm mt-1">请稍候，我们将根据您的简历和职位描述生成个性化面试问题。</p>
+                  <div className="flex items-center space-x-2 mt-3">
+                    <Checkbox 
+                      id="include-baguwen" 
+                      checked={includeBaguwen} 
+                      onCheckedChange={setIncludeBaguwen} 
+                    />
+                    <label htmlFor="include-baguwen" className="text-sm text-blue-800 cursor-pointer">
+                      包含八股题
+                    </label>
+                  </div>
                   <Button
                     onClick={generateQuestions}
                     className="mt-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700"
@@ -176,19 +193,38 @@ const InterviewPrep = () => {
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <CardTitle>题目 {currentQuestionIndex + 1} / {questions.length}</CardTitle>
-                        <Button
-                          onClick={generateQuestions}
-                          variant="outline"
-                          size="sm"
-                        >
-                          <RotateCcw className="w-4 h-4 mr-2" />
-                          重新生成
-                        </Button>
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox 
+                              id="include-baguwen-main" 
+                              checked={includeBaguwen} 
+                              onCheckedChange={setIncludeBaguwen} 
+                            />
+                            <label htmlFor="include-baguwen-main" className="text-sm cursor-pointer">
+                              包含八股题
+                            </label>
+                          </div>
+                          <Button
+                            onClick={generateQuestions}
+                            variant="outline"
+                            size="sm"
+                          >
+                            <RotateCcw className="w-4 h-4 mr-2" />
+                            重新生成
+                          </Button>
+                        </div>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="bg-gray-50 p-6 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">面试问题：</h3>
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold text-lg">面试问题：</h3>
+                          {currentQuestion?.isBg && (
+                            <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">
+                              八股文
+                            </span>
+                          )}
+                        </div>
                         <p className="text-gray-800">{currentQuestion?.question}</p>
                       </div>
 
