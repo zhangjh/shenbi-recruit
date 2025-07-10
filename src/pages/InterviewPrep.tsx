@@ -12,6 +12,7 @@ interface InterviewQuestionItem {
   question: string;
   answer?: string;
   isBg?: boolean;
+  isAlgo?: boolean;
 }
 
 interface InterviewQuestionsResult {
@@ -26,6 +27,7 @@ const InterviewPrep = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [includeBaguwen, setIncludeBaguwen] = useState(false);
+  const [includeAlgorithm, setIncludeAlgorithm] = useState(false);
 
   const generateQuestions = async () => {
     setIsLoading(true);
@@ -43,13 +45,17 @@ const InterviewPrep = () => {
       return;
     }
 
-    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string; needBg?: boolean } = {
+    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string; needBg?: boolean; needAlgo?: boolean } = {
       resume: JSON.parse(resumeRaw).resume, // Assuming resumeRaw stores { resume: base64String }
       userId: user?.id || '',
     };
 
     if (includeBaguwen) {
       requestBody.needBg = true;
+    }
+
+    if (includeAlgorithm) {
+      requestBody.needAlgo = true;
     }
 
     if (jobDescriptionRaw) {
@@ -168,15 +174,27 @@ const InterviewPrep = () => {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 md:p-4 text-blue-800">
                   <p className="font-semibold">暂无面试问题</p>
                   <p className="text-sm mt-1">请稍候，我们将根据您的简历和职位描述生成个性化面试问题。</p>
-                  <div className="flex items-center space-x-2 mt-3">
-                    <Checkbox 
-                      id="include-baguwen" 
-                      checked={includeBaguwen} 
-                      onCheckedChange={setIncludeBaguwen} 
-                    />
-                    <label htmlFor="include-baguwen" className="text-sm text-blue-800 cursor-pointer">
-                      包含八股题
-                    </label>
+                  <div className="flex flex-col space-y-2 mt-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="include-baguwen" 
+                        checked={includeBaguwen} 
+                        onCheckedChange={setIncludeBaguwen} 
+                      />
+                      <label htmlFor="include-baguwen" className="text-sm text-blue-800 cursor-pointer">
+                        包含八股题
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="include-algorithm" 
+                        checked={includeAlgorithm} 
+                        onCheckedChange={setIncludeAlgorithm} 
+                      />
+                      <label htmlFor="include-algorithm" className="text-sm text-blue-800 cursor-pointer">
+                        包含算法题
+                      </label>
+                    </div>
                   </div>
                   <Button
                     onClick={generateQuestions}
@@ -194,15 +212,27 @@ const InterviewPrep = () => {
                       <div className="flex items-center justify-between">
                         <CardTitle>题目 {currentQuestionIndex + 1} / {questions.length}</CardTitle>
                         <div className="flex items-center space-x-4">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox 
-                              id="include-baguwen-main" 
-                              checked={includeBaguwen} 
-                              onCheckedChange={setIncludeBaguwen} 
-                            />
-                            <label htmlFor="include-baguwen-main" className="text-sm cursor-pointer">
-                              包含八股题
-                            </label>
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-2">
+                              <Checkbox 
+                                id="include-baguwen-main" 
+                                checked={includeBaguwen} 
+                                onCheckedChange={setIncludeBaguwen} 
+                              />
+                              <label htmlFor="include-baguwen-main" className="text-sm cursor-pointer">
+                                包含八股题
+                              </label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox 
+                                id="include-algorithm-main" 
+                                checked={includeAlgorithm} 
+                                onCheckedChange={setIncludeAlgorithm} 
+                              />
+                              <label htmlFor="include-algorithm-main" className="text-sm cursor-pointer">
+                                包含算法题
+                              </label>
+                            </div>
                           </div>
                           <Button
                             onClick={generateQuestions}
@@ -219,11 +249,18 @@ const InterviewPrep = () => {
                       <div className="bg-gray-50 p-6 rounded-lg">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="font-semibold text-lg">面试问题：</h3>
-                          {currentQuestion?.isBg && (
-                            <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">
-                              八股文
-                            </span>
-                          )}
+                          <div className="flex space-x-2">
+                            {currentQuestion?.isBg && (
+                              <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full font-medium">
+                                八股文
+                              </span>
+                            )}
+                            {currentQuestion?.isAlgo && (
+                              <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">
+                                算法题
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <p className="text-gray-800">{currentQuestion?.question}</p>
                       </div>
