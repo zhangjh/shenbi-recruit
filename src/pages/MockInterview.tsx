@@ -75,8 +75,25 @@ const MockInterview = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") return;
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      // 优化音频质量参数以减小文件大小
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          sampleRate: 16000,        // 降低采样率到16kHz（语音识别足够）
+          channelCount: 1,          // 单声道
+          echoCancellation: true,   // 回声消除
+          noiseSuppression: true,   // 噪声抑制
+          autoGainControl: true     // 自动增益控制
+        } 
+      });
+      
+      // 使用高压缩的音频编码格式
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') 
+        ? 'audio/webm;codecs=opus'  // Opus编码，压缩率最高
+        : MediaRecorder.isTypeSupported('audio/webm') 
+        ? 'audio/webm' 
+        : 'audio/mp4';
+      
+      mediaRecorderRef.current = new MediaRecorder(stream, { mimeType });
       audioChunksRef.current = [];
 
       mediaRecorderRef.current.ondataavailable = (event) => {
@@ -85,7 +102,7 @@ const MockInterview = () => {
 
       mediaRecorderRef.current.onstop = async () => {
         setIsProcessing(true);
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
