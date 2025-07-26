@@ -5,6 +5,8 @@ import { ArrowLeft, Loader2, MessageSquare, Lightbulb, RotateCcw, Play, Mic, Arr
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import SEOHead from "@/components/SEOHead";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 // Define the structure of the analysis result
 interface InterviewQuestionItem {
@@ -40,7 +42,7 @@ const InterviewPrep = () => {
       return;
     }
 
-    let requestBody: { resume: string; jd?: string; jdImg?: string; userId: string } = {
+    const requestBody: { resume: string; jd?: string; jdImg?: string; userId: string } = {
       resume: JSON.parse(resumeRaw).resume, // Assuming resumeRaw stores { resume: base64String }
       userId: user?.id || '',
     };
@@ -75,9 +77,10 @@ const InterviewPrep = () => {
       } else {
         setError("未能生成面试问题，请尝试重新生成或检查输入。");
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error("Failed to generate interview questions:", e);
-      setError(`生成面试题失败: ${e.message}`);
+      const errorMessage = e instanceof Error ? e.message : '未知错误';
+      setError(`生成面试题失败: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
@@ -195,7 +198,11 @@ const InterviewPrep = () => {
                       {showAnswer && currentQuestion?.answer && (
                         <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
                           <h3 className="font-semibold text-blue-900 mb-2">参考答案：</h3>
-                          <p className="text-blue-800">{currentQuestion.answer}</p>
+                          <div className="text-blue-800 prose prose-sm max-w-none prose-headings:text-blue-900 prose-p:text-blue-800 prose-strong:text-blue-900 prose-code:text-blue-900 prose-code:bg-blue-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                              {currentQuestion.answer}
+                            </ReactMarkdown>
+                          </div>
                         </div>
                       )}
 
